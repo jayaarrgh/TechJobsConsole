@@ -43,6 +43,8 @@ namespace TechJobsConsole
                         List<string> results = JobData.FindAll(columnChoice);
 
                         Console.WriteLine("\n*** All " + columnChoices[columnChoice] + " Values ***");
+                        
+                        results.Sort();                                 // Sort list (results) alphabetically
                         foreach (string item in results)
                         {
                             Console.WriteLine(item);
@@ -63,7 +65,9 @@ namespace TechJobsConsole
                     // Fetch results
                     if (columnChoice.Equals("all"))
                     {
-                        Console.WriteLine("Search all fields not yet implemented.");
+                        searchResults = JobData.FindByValue(searchTerm);            //implement find by value
+                        PrintJobs(searchResults);
+                        // DONT NEED THIS ANY MORE  -->  Console.WriteLine("Search all fields not yet implemented.");
                     }
                     else
                     {
@@ -79,12 +83,12 @@ namespace TechJobsConsole
          */
         private static string GetUserSelection(string choiceHeader, Dictionary<string, string> choices)
         {
-            int choiceIdx;
+            int choiceIdx;                                     // For User Input
             bool isValidChoice = false;
-            string[] choiceKeys = new string[choices.Count];
+            string[] choiceKeys = new string[choices.Count];   // Creates array as long as number of entries in choices dictionary
 
-            int i = 0;
-            foreach (KeyValuePair<string, string> choice in choices)
+            int i = 0;                                                   // (re)Builds the choices of the KVP(dictionary choices) 
+            foreach (KeyValuePair<string, string> choice in choices)     // into ChoiceKeys, an index-able array ["List", "Search"] in case 1
             {
                 choiceKeys[i] = choice.Key;
                 i++;
@@ -92,7 +96,7 @@ namespace TechJobsConsole
 
             do
             {
-                Console.WriteLine("\n" + choiceHeader + " by:");
+                Console.WriteLine("\n" + choiceHeader + " by:");        // Print Key of 
 
                 for (int j = 0; j < choiceKeys.Length; j++)
                 {
@@ -118,7 +122,16 @@ namespace TechJobsConsole
 
         private static void PrintJobs(List<Dictionary<string, string>> someJobs)
         {
-            Console.WriteLine("printJobs is not implemented yet");
+            foreach (var i in someJobs)
+            {
+                Console.WriteLine("*****");
+                foreach (KeyValuePair<string, string> kvp in i)
+                {
+                    Console.WriteLine("{0}: {1}", kvp.Key, kvp.Value);
+                }
+                Console.WriteLine("*****");
+            }
         }
     }
 }
+

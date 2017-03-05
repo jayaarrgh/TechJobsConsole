@@ -48,13 +48,35 @@ namespace TechJobsConsole
             foreach (Dictionary<string, string> row in AllJobs)
             {
                 string aValue = row[column];
-
-                if (aValue.Contains(value))
+                if (aValue.ToUpper().Contains(value.ToUpper()))
                 {
                     jobs.Add(row);
                 }
             }
 
+            return jobs;
+        }
+
+        public static List<Dictionary<string, string>> FindByValue(string searchterm)    // ---> I wrote this stuff!!!
+        {
+            LoadData();
+
+            List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
+
+            foreach (Dictionary<string, string> listing in AllJobs)
+            {
+                foreach (KeyValuePair<string, string> j in listing)             //Foreach kvp (j) in each dictionary (listing) 
+                {                                                               // in the list (jobs)
+                    string k = j.Value;                                         // use kvp(j).Value for string k
+                    if (k.ToUpper().Contains(searchterm.ToUpper()))             // convert k and searchterm ToUpper
+                    {
+                        if (!jobs.Contains(listing))
+                        {
+                            jobs.Add(listing);
+                        }
+                    }
+                }
+            }
             return jobs;
         }
 
@@ -138,5 +160,6 @@ namespace TechJobsConsole
 
             return rowValues.ToArray();
         }
+      
     }
 }
